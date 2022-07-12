@@ -4,8 +4,8 @@ public class Player_Controller : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform PlayerTrf;
-    private int JumpHeight = 4;
-    private float ForcePower = 0.02f;
+    private int JumpHeight = 2;
+    private float ForcePower = 0.01f;
     private bool _isFalling = true;
     private float _offset;
     private Vector3 _newpos;
@@ -33,7 +33,7 @@ public class Player_Controller : MonoBehaviour
         PState.SetPlayerState(Player_State.PState.Jump);
     }
     private void Fall(){
-        PlayerTrf.position+=Vector3.down*ForcePower*0.8f;
+        PlayerTrf.position+=Vector3.down*ForcePower;
     }
     private void Jump(){
         _offset = Vector3.Magnitude(_newpos-PlayerTrf.position);
