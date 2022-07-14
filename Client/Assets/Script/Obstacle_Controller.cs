@@ -6,8 +6,8 @@ public class Obstacle_Controller : MonoBehaviour
     public GameObject ObstacleObj;
     public Transform ObstacleTrans;
     private ObjectPool<Obstacle> _obspool;
-    private Dictionary<int,Obstacle> Dir= new Dictionary<int, Obstacle>();
-    private int Snum,Enum;
+    private float _timer,T;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -17,15 +17,24 @@ public class Obstacle_Controller : MonoBehaviour
             _obspool = ObjectPool<Obstacle>.Ins;
             _obspool.InitPool(ObstacleObj,ObstacleTrans,5);
         }
+        _timer=0;
+        T=0.5f;
+    }
+    void Update(){
+        if(_timer>T){
+            Add();
+            _timer=0;
+            T=Random.Range(4.5f,5f);
+        }
+        _timer+=Time.deltaTime;
     }
     public void Add(){
         Obstacle obj = _obspool.GetItem();
-        obj.transform.position=Vector3.right*Snum;
-        Dir.Add(Snum,obj);
-        Snum++;
+        obj.Bind(this);
+        obj.InitPos();
+        obj.Move();
     }
-    public void Del(){
-        _obspool.RecycleItem(Dir[Enum]);
-        Enum++;
+    public void Del(Obstacle obs){
+        _obspool.RecycleItem(obs);
     }
 }
