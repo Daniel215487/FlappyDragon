@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using LinChTools;
+﻿using LinChTools;
+
 public class Main : SingletonMono<Main>
 { 
-    private GameProcess _gProcess;
+    private GameProcess _gProcess;  // 目前流程
     public GameProcess GProcess{
         get {return _gProcess;}
     }
+    /// <summary>
+    /// 遊戲執行 程式出發點
+    /// </summary>
     void Start(){
         UIMgr.Ins.Bind();
         ChangeProcess(GameProcess.Begin);
@@ -15,6 +16,10 @@ public class Main : SingletonMono<Main>
     public void ChangeProcess(int pi){
         ChangeProcess((GameProcess)pi);
     }
+    /// <summary>
+    /// 流程切換，各控制器執行該階段工作
+    /// </summary>
+    /// <param name="p"></param>
     public void ChangeProcess(GameProcess p){
         UIMgr.Ins.ChangeUIByPros(p);
         _gProcess=p;
@@ -36,6 +41,9 @@ public class Main : SingletonMono<Main>
             break;
         }
     }
+    /// <summary>
+    /// 流程控制Enum
+    /// </summary>
     public enum GameProcess{
         Begin=0,
         InGame=1,

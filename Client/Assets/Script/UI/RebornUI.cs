@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class RebornUI :  UI
 {
+    /// <summary>
+    /// Reborn後 不讓他回Begin 直接切回InGame
+    /// </summary>
     public override void ClickNext()
     {
         // base.ClickNext();

@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UpObj: {fileID: 4869470131521399017}
   DownObj: {fileID: 8313719763210438365}
+  SpawnPos: {x: 16, y: 0, z: 0}
+  UDRandonRange: 0.6
 --- !u!1001 &2162345790752295695
 PrefabInstance:
   m_ObjectHideFlags: 0

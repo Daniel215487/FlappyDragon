@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 namespace LinChTools{
+    //單例製作 繼承Mono
     public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour { 
     protected static T _ins;
     public static T Ins {
