@@ -39,7 +39,7 @@ namespace LinChTools{
             return _t;
         }
         public void RecycleItem(T _t){
-            if(_pool.Count<+0){
+            if(_pool.Count<=0){
                 return;
             }
             _pool.Enqueue(_t);

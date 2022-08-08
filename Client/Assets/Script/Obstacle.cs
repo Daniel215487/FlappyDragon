@@ -23,10 +23,9 @@ public class Obstacle : MonoBehaviour
         DownObj.localScale=Vector3.one+Vector3.up*Random.Range(0f,1f);
     }
     public void Move(){
-        objTra.DOLocalMoveX(-16,10).SetEase(Ease.Linear).OnComplete(
-            ()=>{
-                _contlor.Del(this);
-            }
-        );
+        objTra.localPosition+=Vector3.left*Time.deltaTime*5;
+        if(objTra.localPosition.x<=-16){
+            _contlor.Del(this);
+        }
     }
 }

@@ -1,56 +1,47 @@
-﻿using UnityEngine;
-using DG.Tweening;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+using LinChTools;
 
-public class Player_Controller : MonoBehaviour
+public class Player_Controller : SingletonMono<Player_Controller>
 {
-    // Start is called before the first frame update
-    public Transform PlayerTrf;
-    private float JumpHeight = 1.5f;
-    private float ForcePower = 0.01f;
-    private bool _isFalling = true;
-    private float _offset;
-    private Vector3 _newpos;
-    private Player_State PState;
-    void Start()
-    {
-        PState = new Player_State();
-        if(PlayerTrf!=null)
-            PState.Bind(PlayerTrf);
+    public Player Plyr;
+    private int Point=0;
+    private GameUI _gameui;
+    private GameOverUI _gameoverui;
+    public void Begin(){
+        _gameui = UIMgr.Ins.GetUI(Main.GameProcess.InGame) as GameUI;
+        _gameoverui = UIMgr.Ins.GetUI(Main.GameProcess.GameOver) as GameOverUI;
+        if(Plyr!=null){
+            Plyr.Bind(this);
+            GameOver();
+            Reborn();
+        }
         else
             Debug.LogWarning("沒掛玩家物件");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(_isFalling)
-            Fall();
-        // else
-        //     Jump();
+    public void InGame(){
+        Plyr.swtichSimlluated(true);
+    }
+    public void GameOver(){
+        Point=0;
+        Plyr.swtichSimlluated(false);
+    }
+    public void Reborn(){
+        _gameui.ReSetPoint();
+        Plyr.Reborn();
     }
     public void OnClickToJump(){
-        _newpos = PlayerTrf.localPosition+Vector3.up*JumpHeight;
-        _isFalling=false;
-        PState.SetPlayerState(Player_State.PState.Jump);
-        PlayerTrf.DOJump(_newpos,1,1,0.5f).OnComplete(
-            ()=>{
-                _isFalling=true;
-            }
-        );
+        Plyr.Jump();
     }
-    private void Fall(){
-        PState.SetPlayerState(Player_State.PState.Fall);
-        PlayerTrf.localPosition+=Vector3.down*ForcePower*3;
+    public void PlayerDead(){
+        _gameoverui.GetGamePoint();
+
+        // Main.Ins.ChangeProcess(Main.GameProcess.GameOver);
+        _gameui.ClickNext();
     }
-    private void Jump(){
-        // _offset = Vector3.Magnitude(_newpos-PlayerTrf.position);
-        // // print($"offset:{_offset}");
-        // if(_offset<0.5f){
-        //     _isFalling=true;
-        //     PState.SetPlayerState(Player_State.PState.Fall);
-        // }
-        // else{
-        //     PlayerTrf.position+=Vector3.up*ForcePower;
-        // }
+    public void GetPoint(){
+        Point++;
+        _gameui.SetPoint(Point);
     }
 }
